@@ -1,0 +1,22 @@
+{
+  "name": "element-iterator",
+  "version": "1.0.0",
+  "description": "Iterate through a group of elements over a set period of time. With callbacks for each item both in and out.",
+  "main": "iterator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marknotton/element-iterator.git"
+  },
+  "dependencies" : {
+     "jquery-pluginify" : ">=1.0.1-1"
+  },
+  "author": "Mark Notton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marknotton/element-iterator/issues"
+  },
+  "homepage": "https://github.com/marknotton/element-iterator"
+}
