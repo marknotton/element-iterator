@@ -1,5 +1,24 @@
 class Iterator {
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // Default Settigs
+  ////////////////////////////////////////////////////////////////////////////////
+
+  get defaults() {
+    return {
+      duration  : 3000,       // Time (in miliseconds) between each iteration callback
+      instant   : true,       // Trigger iniitial callback instantly with no delay
+      delay     : 0,          // End function delay.
+      loop      : 3,          // Iterations loop infinetly or by a set amount
+      autostop  : true,       // Adds a listener to pause iterations when user is not activly looking at page
+      startfrom : 1,          // Choose to start the iteration from a particular index
+      endon     : 1,          // Loop rules are ignored until a particular index is found after the final loop.
+      direction : 'forwards', // Start playing immediatly
+      autoplay  : true,       // Start playing immediatly
+      log       : false       // Dev option to console log out status changes.
+    }
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Constructor - Manage all arguments and define settings
   //////////////////////////////////////////////////////////////////////////////
@@ -67,7 +86,7 @@ class Iterator {
       }
 
       // Merge all settings and default settings to a final list of usuable options.
-      settings = Object.assign({}, this.constructor.defaults, settings);
+      settings = Object.assign({}, this.defaults, this.constructor.defaults, settings);
 
       if ( typeof settings.start == 'undefined' ) {
         console.warn("You must define a function to be called back on each iteration")
@@ -121,6 +140,47 @@ class Iterator {
       this.iteration = this.startfrom;
       clearInterval(this.timer);
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Next
+  //////////////////////////////////////////////////////////////////////////////
+
+  next() {
+    let nextExists = true;
+
+    clearInterval(this.timer);
+
+    if ( this.iteration == this.total ) {
+      if (this.loop === 1) {
+        nextExists = false;
+      } else {
+        this.iteration = 1
+      }
+    } else {
+      this.iteration ++;
+    }
+
+    if (this.log) { console.log('next') }
+
+    return this._callback();
+  }
+
+  prev() {
+    let prevExists = true;
+    clearInterval(this.timer);
+    if ( this.iteration == this.startfrom ) {
+      if (this.loop === 1) {
+        prevExists = false;
+      } else {
+        this.iteration = this.total
+      }
+    } else {
+      this.iteration --;
+    }
+    this._callback()
+    if (this.log) { console.log('prev', prevExists) }
+    return prevExists;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -180,28 +240,35 @@ class Iterator {
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
 
-  _callback() {
+  _callback(direction = this.direction) {
 
-    let index = this.iteration - 1;
-    let current = this.elements[index];
+    let index    = this.iteration - 1;
+    let current  = this.elements[index];
+    let previous = this.elements[index - 1] || (this.loop === 1 ? false : this.elements[this.total - 1]);
+    let next     = this.elements[index + 1] || (this.loop === 1 ? false : this.elements[0]);
 
     this.start.call(null, current, index)
 
-    if ( this.total > 1 && typeof this.end != 'undefined' ) {
+    if ( direction == 'forwards' ) {
+      // Next
 
-      let previous = this.elements[index - 1] || this.elements[this.total - 1];
+      if ( this.total > 1 && typeof this.end != 'undefined' ) {
 
-      if (this.delay > 0) {
+        if (this.delay > 0) {
 
-        setTimeout(() => {
+          setTimeout(() => {
+            this.end.call(null, previous, index)
+          }, this.delay);
+
+        } else {
+
           this.end.call(null, previous, index)
-        }, this.delay);
 
-      } else {
-
-        this.end.call(null, previous, index)
-
+        }
       }
+    } else {
+      // Previous
+
     }
 
   }
@@ -219,22 +286,6 @@ class Iterator {
   }
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-// Default Settigs
-////////////////////////////////////////////////////////////////////////////////
-
-Iterator.defaults = {
-  duration  : 3000,  // Time (in miliseconds) between each iteration callback
-  instant   : true,  // Trigger iniitial callback instantly with no delay
-  delay     : 0,     // End function delay.
-  loop      : 3,     // Iterations loop infinetly or by a set amount
-  autostop  : true,  // Adds a listener to pause iterations when user is not activly looking at page
-  startfrom : 1,     // Choose to start the iteration from a particular index
-  endon     : 1,     // Loop rules are ignored until a particular index is found after the final loop.
-  autoplay  : true,  // Start playing immediatly
-  log       : true   // Dev option to console log out status changes.
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Pluginify - Convert plugin class into a jQuery plugin
