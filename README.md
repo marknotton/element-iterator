@@ -83,27 +83,27 @@ The ```start``` and ```end``` callbacks both pass in the currently iterated elem
 
 When you store your iterator into a variable, you can refer to this for more control over what the iterator is does.
 
-| Command | Description |
-| -- | -- |
-| pause | Pauses the current iteration where it stands |
-| stop  | Stops the current iteration and resets the 'start from' position |
-| play  | Plays the iterator from where it's left of. This is triggered automatically unless otherwise specified |
-| next  | Calls the next iteration action |
-| prev  | Calls the previous iteration action |
-
-#### Usage
+**pause**: Pauses the current iteration where it stands
 ```
 myItems.pause();
 ```
+
+**stop**: Stops the current iteration and resets the 'start from' position
 ```
 myItems.stop();
 ```
+
+**play**: Plays the iterator from where it's left of. This is triggered automatically unless otherwise specified
 ```
 myItems.play();
 ```
+
+**next**: Calls the next iteration action
 ```
 myItems.next();
 ```
+
+**prev**: Calls the previous iteration action
 ```
 myItems.prev();
 ```
