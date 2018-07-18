@@ -78,3 +78,27 @@ let myItems = items.iterate(2000, 1000, 2, (element, index) => {
 ```
 
 The ```start``` and ```end``` callbacks both pass in the currently iterated element, and the item index number.  You **must** declare at least one function to be triggered on each iteration. The ```end``` function is optional.
+
+### Controls
+
+When you store your iterator into a variable, you can refer to this for more control over what the iterator is does.
+
+| Command | Description |
+| -- | -- |
+| pause | Pauses the current iteration where it stands |
+| stop  | Stops the current iteration and resets the 'start from' position |
+| play  | Plays the iterator from where it's left of. This is triggered automatically unless otherwise specified |
+| next  | Calls the next iteration action |
+| prev  | Calls the previous iteration action |
+
+```
+myItems.pause();
+
+myItems.stop();
+
+myItems.play();
+
+myItems.next();
+
+myItems.prev();
+```
