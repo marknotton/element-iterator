@@ -91,14 +91,19 @@ When you store your iterator into a variable, you can refer to this for more con
 | next  | Calls the next iteration action |
 | prev  | Calls the previous iteration action |
 
+#### Usage
 ```
 myItems.pause();
-
+```
+```
 myItems.stop();
-
+```
+```
 myItems.play();
-
+```
+```
 myItems.next();
-
+```
+```
 myItems.prev();
 ```
