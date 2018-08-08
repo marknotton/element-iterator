@@ -1,6 +1,6 @@
 {
   "name": "element-iterator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Iterate through a group of elements over a set period of time. With callbacks for each item both in and out.",
   "main": "iterator.js",
   "scripts": {
