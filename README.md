@@ -9,21 +9,17 @@ Iterate through a group of elements over a set period of time. With callbacks fo
 npm i element-iterator --save
 ```
 
-### Requires
-ES6 Support
-
-
 ### Options
 | Setting | Default | Type | Description |
 | -- | -- | -- | -- |
-| duration  | 3000  | number | Time (in miliseconds) between each iteration callback |
-| instant   | true  | bool | Trigger iniitial callback instantly with no delay |
+| duration  | 3000  | number | Time (in milliseconds) between each iteration callback |
+| instant   | true  | bool | Trigger initial callback instantly with no delay |
 | delay     | 0     | number | End function delay. |
-| loop      | 3     | number or bool | Iterations loop infinetly or by a set amount |
-| autostop  | true  | bool | Adds a listener to pause iterations when user is not activly looking at page |
+| loop      | 3     | number or bool | Iterations loop infinitely or by a set amount |
+| autostop  | true  | bool | Adds a listener to pause iterations when user is not actively looking at page |
 | startfrom | 1     | number | Choose to start the iteration from a particular index |
 | endon     | 1     | number | Loop rules are ignored until a particular index is found after the final loop. |
-| autoplay  | true  | bool | Start playing immediatly |
+| autoplay  | true  | bool | Start playing immediately |
 | log       | true   | bool | Dev option to console log out status changes. |
 
 ### Example
@@ -39,7 +35,7 @@ let myItems = items.iterate(...)
 ```
 If you don't want to use jQuery, you can declare a new iterator with something like this:
 ```js
-let myItems = new Iterator(items, [...]);
+let myItems = new Iterator(items, {...});
 ```
 
 You can define global settings like this:
@@ -63,6 +59,9 @@ let myItems = items.iterate({
   end : (element, index) => {
     $(element).removeClass('show');
   },
+  complete : ( element ) => {
+	console.log('All done', element);
+  },
   delay : 1000,
   duration : 2000,
   loop : 2
@@ -78,6 +77,8 @@ let myItems = items.iterate(2000, 1000, 2, (element, index) => {
 ```
 
 The ```start``` and ```end``` callbacks both pass in the currently iterated element, and the item index number.  You **must** declare at least one function to be triggered on each iteration. The ```end``` function is optional.
+
+You can also define a third callback called ```complete``` which will trigger when the final loop has completed. This will pass in the last iterated item.
 
 ### Controls
 

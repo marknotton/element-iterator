@@ -62,6 +62,8 @@ class Iterator {
                   settings.start = value;
                 } else if (typeof settings.end == 'undefined') {
                   settings.end = value;
+                } else if (typeof settings.complete == 'undefined') {
+                  settings.complete = value;
                 }
               break
               case 'number':
@@ -87,6 +89,8 @@ class Iterator {
 
       // Merge all settings and default settings to a final list of usuable options.
       settings = Object.assign({}, this.defaults, this.constructor.defaults, settings);
+
+
 
       if ( typeof settings.start == 'undefined' ) {
         console.warn("You must define a function to be called back on each iteration")
@@ -214,6 +218,9 @@ class Iterator {
 
               if ( this.loop === 1 || this.iteration == this.endon || typeof this.endon == 'string') {
                 this.stop();
+								if ( typeof this.complete !== 'undefined') {
+									this.complete.call(null, this.elements[this.iteration])
+								}
               } else {
                 if (this.iteration == this.total) {
                   this.iteration = 1;
